@@ -1,0 +1,55 @@
+.next:hover,
+.prev:hover {
+  background-image: linear-gradient(
+    105.6deg,
+    rgba(95, 182, 248, 1) 7%,
+    rgba(2, 89, 182, 1) 77.4%
+  );
+  color: white;
+  transition: 600ms ease;
+}
+
+.admin_header:hover {
+  animation-name: pulse;
+  animation-duration: 1s;
+}
+
+.up_img {
+  background-image: url("image/cloud.svg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+.album .card:hover {
+  /* animation: pulse 2s infinite; */
+  animation-name: pulse;
+  animation-duration: 1s;
+}
+.btn--article-hover {
+  display: none;
+}
+.btn--article:hover .btn--article-hover {
+  display: block;
+}
+.btn--article {
+}
+.form--hover-title1,
+.form--hover-title1 {
+  position: none;
+}
+.form--hover-parent1:hover .form--hover-title2 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  background-color: black;
+  left: 100%;
+}
+.form--hover-parent2:hover .form--hover-title1 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  background-color: black;
+  right: 100%;
+}
