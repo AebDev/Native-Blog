@@ -23,33 +23,41 @@
 
 <body>
     <?php
-    include 'admin_header.php';
+    include 'functions.php';
+    upload_image();
+    if (isset($_REQUEST['submit'])) {
+        $col = array("fullname_auteur", "email_auteur", "avatar_auteur");
+        $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        add_item("auteur", $col, $val);
+    }
     ?>
     <div class="col-11 pl-0">
-        <section class=" p-5 bg-light">
-            <div class="card bg-white p-5" style="min-height:80vh;">
-                <div class="card-body">
-                    <h5 class="card-title text-center display-4 p-4">Auteur</h5>
+        <form action="" method="post" enctype="multipart/form-data">
+            <section class=" p-5 bg-light">
+                <div class="card bg-white p-5" style="min-height:80vh;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center display-4 p-4">Auteur</h5>
 
-                    <div class="form-group py-3">
-                        <input type="text" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Full Name" />
-                    </div>
-                    <div class="form-group py-3">
-                        <input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Email" />
-                    </div>
+                        <div class="form-group py-3">
+                            <input type="text" name="name_auteur" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Full Name" />
+                        </div>
+                        <div class="form-group py-3">
+                            <input type="email" name="email_auteur" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Email" />
+                        </div>
 
-                    <div class="custom-file py-4">
-                        <input type="file" class="custom-file-input " id="customFile" />
-                        <label class="custom-file-label" for="customFile">Choose Avatar</label>
-                    </div>
-                    <div class="form-group m-0 py-4">
-                        <button type="submit" class="btn btn-primary w-100">
-                            Save
-                        </button>
+                        <div class="custom-file py-4">
+                            <input type="file" class="custom-file-input " name="picture" id="picture" />
+                            <label class="custom-file-label" for="picture">Choose Avatar</label>
+                        </div>
+                        <div class="form-group m-0 py-4">
+                            <button type="submit" name="submit" class="btn btn-primary w-100">
+                                Save
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </form>
     </div>
 </body>
 

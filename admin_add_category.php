@@ -23,31 +23,40 @@
 
 <body>
     <?php
-    include 'admin_header.php';
+
+    include 'functions.php';
+    upload_image();
+    if (isset($_REQUEST['submit'])) {
+        $col = array("nom_categorie", "image_categorie");
+        $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        add_item("categorie", $col, $val);
+    }
     ?>
     <div class="col-11 pl-0">
+        <form action="admin_add_category.php" method="POST" enctype="multipart/form-data">
+            <section class=" p-5 bg-light">
+                <div class="card bg-white p-5" style="min-height:80vh;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center display-4 p-4">Categorie</h5>
 
-        <section class=" p-5 bg-light">
-            <div class="card bg-white p-5" style="min-height:80vh;">
-                <div class="card-body">
-                    <h5 class="card-title text-center display-4 p-4">Categorie</h5>
+                        <div class="form-group py-3">
+                            <input type="text" name="nom_categorie" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Categorie" />
+                        </div>
 
-                    <div class="form-group py-3">
-                        <input type="text" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Categorie" />
-                    </div>
+                        <div class="custom-file py-4">
+                            <input type="file" class="custom-file-input " name="picture" id="picture" />
+                            <label class="custom-file-label" for="picture">Choose Image</label>
+                        </div>
 
-                    <div class="custom-file py-4">
-                        <input type="file" class="custom-file-input " id="customFile" />
-                        <label class="custom-file-label" for="customFile">Choose Image</label>
-                    </div>
-                    <div class="form-group m-0 py-4">
-                        <button type="submit" class="btn btn-primary w-100">
-                            Save
-                        </button>
+                        <div class="form-group m-0 py-4">
+                            <button type="submit" name="submit" class="btn btn-primary w-100">
+                                Save
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </form>
     </div>
 </body>
 
