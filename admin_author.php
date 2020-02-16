@@ -24,7 +24,7 @@
 <body>
     <?php
     include 'functions.php';
-    $author = get_item("auteur");
+    $author = get_item("*", "auteur", "");
     $path = get_path();
     ?>
     <section class="bg-light p-5">
@@ -49,7 +49,7 @@
                 <?php while ($row = $author->fetch(PDO::FETCH_ASSOC)) { ?>
                     <tr>
                         <th scope="row"><input type="checkbox" value="<?= $row['id_categorie'] ?>" name="id_auteur" id="" /></th>
-                        <td><img src="uploads/<?= $row['avatar_auteur'] ?>" alt="" style="width:100px" /></td>
+                        <td><img src="uploads/<?= $row['avatar_auteur'] ?>" alt="<?= $row['avatar_auteur'] ?>" style="width:100px" /></td>
                         <td><?= $row['fullname_auteur'] ?></td>
                         <td><?= $row['email_auteur'] ?></td>
                         <td>

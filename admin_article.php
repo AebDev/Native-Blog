@@ -22,13 +22,19 @@
 </head>
 
 <body>
+    <?php
+    include 'functions.php';
+
+    $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur");
+    $path = get_path();
+    ?>
     <main>
         <section class="bg-light p-5">
             <h2>Articles</h2>
             <div class="p-3">
-                <button class="btn btn-success" type="submit">
+                <a href="<?= $path ?>/admin_add_article.php" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Ajouter
-                </button>
+                </a>
             </div>
             <table class="table table-hover bg-white">
                 <thead>
@@ -39,69 +45,39 @@
                         <th scope="col">Auteur</th>
                         <th scope="col">Categorie</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Afficher</th>
                         <th scope="col">Modifier</th>
                         <th scope="col">Supprimer</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row"><input type="checkbox" name="" id="" /></th>
-                        <td><img src="image/image1.jpg" alt="" style="width:100px" /></td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-                        <td>@mdo</td>
-                        <td>Categorie 1</td>
-                        <td>14/02/2020</td>
-                        <td>
-                            <button class="btn btn-warning " type="submit">
-                                <i class="fas fa-pen"></i> Modifer
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger " type="submit">
-                                <i class="fas fa-trash-alt "></i> Supprimer
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><input type="checkbox" name="" id="" /></th>
-                        <td>
-                            <img src="image/image2.jpg" alt="" style="width:100px" />
-                        </td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-                        <td>@mdo</td>
-                        <td>Categorie 1</td>
-                        <td>14/02/2020</td>
-                        <td>
-                            <button class="btn btn-warning " type="submit">
-                                <i class="fas fa-pen"></i> Modifer
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger " type="submit">
-                                <i class="fas fa-trash-alt "></i> Supprimer
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><input type="checkbox" name="" id="" /></th>
-                        <td>
-                            <img src="image/image3.jpg" alt="" style="width:100px;" />
-                        </td>
-                        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-                        <td>@mdo</td>
-                        <td>Categorie 1</td>
-                        <td>14/02/2020</td>
-                        <td>
-                            <button class="btn btn-warning " type="submit">
-                                <i class="fas fa-pen"></i> Modifer
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger " type="submit">
-                                <i class="fas fa-trash-alt "></i> Supprimer
-                            </button>
-                        </td>
-                    </tr>
+                    <?php while ($row = $article->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <tr>
+                            <th scope="row"><input type="checkbox" value="<?= $row['id_article'] ?>" name=" id_article" id="" /></th>
+                            <td><img src="uploads/<?= $row['image_article'] ?>" alt="<?= $row['image_article'] ?>" style="width:100px" /></td>
+                            <td><?= $row['title_article'] ?></td>
+
+                            <td><?= $row['fullname_auteur'] ?></td>
+                            <td><?= $row['nom_categorie'] ?></td>
+                            <td><?= $row['date_article'] ?></td>
+                            <td>
+                                <a href="<?= $path . "/single_post.php?id_article=" . $row['id_article'] ?> " class="btn btn-success ">
+                                    <i class="fas fa-pen"></i> Afficher
+                                </a>
+                            </td>
+                            <td>
+                                <a href="<?= $path . "/admin_add_article.php?id_article=" . $row['id_article'] ?> " class="btn btn-warning ">
+                                    <i class="fas fa-pen"></i> Modifer
+                                </a>
+                            </td>
+                            <td>
+                                <a href="<?= $path . "/admin_article.php?id_article=" . $row['id_article'] ?> " class="btn btn-danger ">
+                                    <i class="fas fa-trash-alt "></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+
                 </tbody>
             </table>
         </section>

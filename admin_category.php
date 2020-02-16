@@ -24,7 +24,7 @@
 <body>
     <?php
     include 'functions.php';
-    $category = get_item("categorie");
+    $category = get_item("*", "categorie", "");
     $path = get_path();
     ?>
     <main>

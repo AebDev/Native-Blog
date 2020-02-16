@@ -32,10 +32,11 @@
 
 <body>
     <?php
+
     include 'functions.php';
     upload_image();
-    $category = get_item("categorie");
-    $author = get_item("auteur");
+    $category = get_item("*", "categorie", "");
+    $author = get_item("*", "auteur", "");
     if (isset($_REQUEST['submit'])) {
         $col = array("title_article", "contenu_article", "image_article", "date_article", "id_categorie", "id_auteur");
         $val = array("'" . $_REQUEST["title"] . "'", "'" . $_REQUEST["example"] . "'", "'" . $_FILES['picture']['name'] . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
@@ -78,8 +79,8 @@
                     <div class="card col-12 mb-3">
                         <div class="card-body">
                             <div class="form-group">
-                                <label class="mr-sm-2" for="inlineFormCustomSelect1">Auteur</label>
-                                <select class="custom-select mr-sm-2" name="auteur" id="inlineFormCustomSelect1">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect1">Categorie</label>
+                                <select class="custom-select mr-sm-2" name="categorie" id="inlineFormCustomSelect1">
                                     <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
 
                                         <option value="<?= $row['id_categorie'] ?>"><?= $row["nom_categorie"] ?></option>
@@ -92,8 +93,8 @@
                     <div class="card col-12 mb-3">
                         <div class="card-body">
                             <div class="form-group">
-                                <label class="mr-sm-2" for="inlineFormCustomSelect2">Categorie</label>
-                                <select class="custom-select mr-sm-2" name="categorie" id="inlineFormCustomSelect2">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect2">Auteur</label>
+                                <select class="custom-select mr-sm-2" name="auteur" id="inlineFormCustomSelect2">
                                     <?php while ($row = $author->fetch(PDO::FETCH_ASSOC)) { ?>
 
                                         <option value="<?= $row['id_auteur'] ?>"><?= $row["fullname_auteur"] ?></option>

@@ -28,17 +28,18 @@ function add_item($table, $arr1, $arr2)
     $col = implode(", ", $arr1);
     $val = implode(", ", $arr2);
     $sql = "INSERT INTO $table ($col) VALUES ($val);";
-    $con->exec($sql);
-}
 
-function get_item($table)
-{
-    include 'connection.php';
-    $sql = "SELECT * FROM $table";
-    $result = $con->query($sql);
-    return $result;
+    $con->exec($sql);
 }
 function get_path()
 {
     return pathinfo($_SERVER['PHP_SELF'])["dirname"];
+}
+
+function get_item($col, $table, $condition)
+{
+    include 'connection.php';
+    $sql = "SELECT $col FROM $table " . $condition;
+    $result = $con->query($sql);
+    return $result;
 }
