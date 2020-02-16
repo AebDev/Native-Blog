@@ -26,13 +26,17 @@
     include 'functions.php';
     $category = get_item("*", "categorie", "");
     $path = get_path();
+    if (isset($_GET["id_categorie"])) {
+        del_item("categorie", "id_categorie = " . $_GET["id_categorie"]);
+        header("Location: admin_category.php");
+    }
     ?>
     <main>
         <form action="" method="post">
             <section class="bg-light p-5">
                 <h2>Categories</h2>
                 <div class="p-3">
-                    <a href="<?= $path ?>/admin_add_category.php" class="btn btn-primary">
+                    <a href="<?= $path ?>/admin_up_category.php" class="btn btn-primary">
 
                         <i class="fas fa-plus"></i> Ajouter
 
@@ -64,7 +68,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="<?= $path . "/admin_add_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-warning ">
+                                    <a href="<?= $path . "/admin_up_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-warning ">
                                         <i class="fas fa-pen"></i> Modifer
                                     </a>
                                 </td>

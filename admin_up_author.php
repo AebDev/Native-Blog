@@ -23,35 +23,55 @@
 
 <body>
     <?php
-
     include 'functions.php';
     upload_image();
+    $method = "submit";
+
     if (isset($_REQUEST['submit'])) {
-        $col = array("nom_categorie", "image_categorie");
-        $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
-        add_item("categorie", $col, $val);
-        header("Location: admin_category.php");
+        $col = array("fullname_auteur", "email_auteur", "avatar_auteur");
+        $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        add_item("auteur", $col, $val);
+        header("Location: admin_author.php");
     }
 
+    if (isset($_REQUEST['update'])) {
+        $col = array("fullname_auteur", "email_auteur", "avatar_auteur");
+        $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        up_item("auteur", array_combine($col, $val), "id_auteur = " . $_REQUEST["id_auteur"]);
+        header("Location: admin_author.php");
+    }
+
+    $post_row["fullname_auteur"] = "";
+    $post_row["email_auteur"] = "";
+    $post_row["avatar_auteur"] = "";
+    if (isset($_REQUEST["id_auteur"])) {
+        $method = "update";
+        $category = get_item("*", "auteur", " WHERE id_auteur = " . $_REQUEST['id_auteur']);
+        while ($row = $category->fetch(PDO::FETCH_ASSOC)) {
+            $post_row = array_merge($row);
+        }
+    }
     ?>
     <div class="col-11 pl-0">
-        <form action="admin_add_category.php" method="POST" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data">
             <section class=" p-5 bg-light">
                 <div class="card bg-white p-5" style="min-height:80vh;">
                     <div class="card-body">
-                        <h5 class="card-title text-center display-4 p-4">Categorie</h5>
+                        <h5 class="card-title text-center display-4 p-4">Auteur</h5>
 
                         <div class="form-group py-3">
-                            <input type="text" name="nom_categorie" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Categorie" />
+                            <input type="text" value="<?= $post_row['fullname_auteur'] ?>" name="name_auteur" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Full Name" />
+                        </div>
+                        <div class="form-group py-3">
+                            <input type="email" value="<?= $post_row['email_auteur'] ?>" name="email_auteur" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Email" />
                         </div>
 
                         <div class="custom-file py-4">
-                            <input type="file" class="custom-file-input " name="picture" id="picture" />
-                            <label class="custom-file-label" for="picture">Choose Image</label>
+                            <input type="file" class="custom-file-input " name="picture" id="picture" accept="image/*" />
+                            <label class="custom-file-label" for="picture">Choose Avatar</label>
                         </div>
-
                         <div class="form-group m-0 py-4">
-                            <button type="submit" name="submit" class="btn btn-primary w-100">
+                            <button type="submit" name="<?= $method ?>" class="btn btn-primary w-100">
                                 Save
                             </button>
                         </div>

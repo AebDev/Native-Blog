@@ -27,12 +27,17 @@
 
     $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur");
     $path = get_path();
+    if (isset($_GET["id_article"])) {
+        del_item("article", "id_article = " . $_GET["id_article"]);
+        header("Location: admin_article.php");
+    }
+
     ?>
     <main>
         <section class="bg-light p-5">
             <h2>Articles</h2>
             <div class="p-3">
-                <a href="<?= $path ?>/admin_add_article.php" class="btn btn-primary">
+                <a href="<?= $path ?>/admin_up_article.php" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Ajouter
                 </a>
             </div>
@@ -66,12 +71,12 @@
                                 </a>
                             </td>
                             <td>
-                                <a href="<?= $path . "/admin_add_article.php?id_article=" . $row['id_article'] ?> " class="btn btn-warning ">
+                                <a href="<?= $path . "/admin_up_article.php?id_article=" . $row['id_article'] ?> " class="btn btn-warning ">
                                     <i class="fas fa-pen"></i> Modifer
                                 </a>
                             </td>
                             <td>
-                                <a href="<?= $path . "/admin_article.php?id_article=" . $row['id_article'] ?> " class="btn btn-danger ">
+                                <a href="<?= $path . "/admin_article.php?id_article=" . $row['id_article'] ?> " name="delete" class="btn btn-danger ">
                                     <i class="fas fa-trash-alt "></i> Supprimer
                                 </a>
                             </td>

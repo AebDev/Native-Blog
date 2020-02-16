@@ -26,11 +26,15 @@
     include 'functions.php';
     $author = get_item("*", "auteur", "");
     $path = get_path();
+    if (isset($_GET["id_auteur"])) {
+        del_item("auteur", "id_auteur = " . $_GET["id_auteur"]);
+        header("Location: admin_author.php");
+    }
     ?>
     <section class="bg-light p-5">
         <h2>Auteurs</h2>
         <div class="p-3">
-            <a href="<?= $path ?>/admin_add_author.php" class="btn btn-primary">
+            <a href="<?= $path ?>/admin_up_author.php" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Ajouter
             </a>
         </div>
@@ -58,7 +62,7 @@
                             </a>
                         </td>
                         <td>
-                            <a href="<?= $path . "/admin_add_author.php?id_auteur=" . $row['id_auteur'] ?> " class="btn btn-warning ">
+                            <a href="<?= $path . "/admin_up_author.php?id_auteur=" . $row['id_auteur'] ?> " class="btn btn-warning ">
                                 <i class="fas fa-pen"></i> Modifer
                             </a>
                         </td>

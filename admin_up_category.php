@@ -26,6 +26,9 @@
 
     include 'functions.php';
     upload_image();
+
+    $method = "submit";
+
     if (isset($_REQUEST['submit'])) {
         $col = array("nom_categorie", "image_categorie");
         $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
@@ -33,25 +36,41 @@
         header("Location: admin_category.php");
     }
 
+    if (isset($_REQUEST['update'])) {
+        $col = array("nom_categorie", "image_categorie");
+        $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        up_item("categorie", array_combine($col, $val), "id_categorie = " . $_GET["id_categorie"]);
+        header("Location: admin_category.php");
+    }
+
+    $post_row['nom_categorie'] = "";
+
+    if (isset($_REQUEST["id_categorie"])) {
+        $method = "update";
+        $category = get_item("*", "categorie", " WHERE id_categorie = " . $_GET['id_categorie']);
+        while ($row = $category->fetch(PDO::FETCH_ASSOC)) {
+            $post_row = array_merge($row);
+        }
+    }
     ?>
     <div class="col-11 pl-0">
-        <form action="admin_add_category.php" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             <section class=" p-5 bg-light">
                 <div class="card bg-white p-5" style="min-height:80vh;">
                     <div class="card-body">
                         <h5 class="card-title text-center display-4 p-4">Categorie</h5>
 
                         <div class="form-group py-3">
-                            <input type="text" name="nom_categorie" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Categorie" />
+                            <input type="text" value="<?= $post_row['nom_categorie'] ?>" name="nom_categorie" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Categorie" />
                         </div>
 
                         <div class="custom-file py-4">
-                            <input type="file" class="custom-file-input " name="picture" id="picture" />
+                            <input type="file" class="custom-file-input " name="picture" id="picture" accept="image/*" />
                             <label class="custom-file-label" for="picture">Choose Image</label>
                         </div>
 
                         <div class="form-group m-0 py-4">
-                            <button type="submit" name="submit" class="btn btn-primary w-100">
+                            <button type="submit" name="<?= $method ?>" class="btn btn-primary w-100">
                                 Save
                             </button>
                         </div>
