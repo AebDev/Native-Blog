@@ -117,7 +117,7 @@
                                 <div class="card-body">
                                     <div class="d-flex">
                                         <div>
-                                            <img src="uploads/<?= $row['avatar_auteur'] ?>" alt="avatar" width="72px" class="rounded-circle" />
+                                            <img src="uploads/<?= $row['avatar_auteur'] ?>" alt="avatar" width="72px" height="72px" class="rounded-circle" />
                                         </div>
                                         <div class="p-1">
                                             <h2><?= $row['title_article'] ?></h2>
@@ -125,7 +125,7 @@
                                         </div>
                                     </div>
 
-                                    <p class="card-text">
+                                    <p class="card-text " style="font-size: revert;">
                                         <?= preview_para($row['contenu_article']) ?>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">

@@ -32,7 +32,7 @@
     while ($row = $article->fetch(PDO::FETCH_ASSOC)) {
         $post_row = array_merge($row);
     }
-    var_dump($post_row);
+
     ?>
     <main class="container">
         <section class="row">

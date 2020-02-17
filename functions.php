@@ -15,11 +15,11 @@ function upload_image()
         if ($fileError === 0) {
             $fileDestination = 'uploads/' . $fileName;
             move_uploaded_file($fileTmpName, $fileDestination);
-        } else {
-            echo "There was an error";
         }
     }
 }
+
+
 
 function add_item($table, $arr1, $arr2)
 {
@@ -45,14 +45,15 @@ function get_item($col, $table, $condition)
 
 function preview_para($para)
 {
-    return implode(' ', array_slice(explode(' ', $para), 0, 10));
+    $para = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($para))));
+    return implode(' ', array_slice(explode(' ', $para), 0, 9));
 }
 
 function del_item($table, $condition)
 {
     include 'connection.php';
     $sql = "DELETE FROM $table WHERE " . $table . "." . $condition;
-    $result = $con->query($sql);
+    $con->query($sql);
 }
 
 function up_item($table, $colval, $condition)
