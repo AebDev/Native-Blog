@@ -27,7 +27,7 @@ function add_item($table, $arr1, $arr2)
     $col = implode(", ", $arr1);
     $val = implode(", ", $arr2);
     $sql = "INSERT INTO $table ($col) VALUES ($val);";
-    echo $sql;
+
     $con->exec($sql);
 }
 function get_path()
@@ -39,8 +39,8 @@ function get_item($col, $table, $condition)
 {
     include 'connection.php';
     $sql = "SELECT $col FROM $table " . $condition;
-
     $result = $con->query($sql);
+
     return $result;
 }
 

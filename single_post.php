@@ -27,10 +27,24 @@
     include 'functions.php';
 
     $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur where id_article=" . $_REQUEST['id_article']);
+    $new_article = get_item("*", "article", " limit 6");
+    $category = get_item("*", "categorie", "");
+
+
+    $comment = get_item("*", "comentaire", " where id_article = " . $_REQUEST['id_article'] . " order by id_comentaire DESC");
+    $nbcomment = $comment->fetchAll(PDO::FETCH_ASSOC);
 
     $path = get_path();
+    var_dump($nbcomment[1]['email_commentaire']);
     while ($row = $article->fetch(PDO::FETCH_ASSOC)) {
         $post_row = array_merge($row);
+    }
+
+    if (isset($_REQUEST['nom_auteur_comentaire'])) {
+        $col = array("nom_auteur_comentaire", "email_commentaire", "contenu_commentaire", "id_article",);
+        $val = array("'" . $_REQUEST["nom_auteur_comentaire"] . "'", "'" . $_REQUEST["email_commentaire"] . "'", "'" . $_REQUEST["contenu_commentaire"] . "'", $_REQUEST["id_article"]);
+        add_item("comentaire", $col, $val);
+        header("location : single_post.php?id_article=" . $_REQUEST['id_article']);
     }
 
     ?>
@@ -65,7 +79,7 @@
                 <div class="card col-12">
                     <div class="card-body d-flex">
                         <div>
-                            <img src="uploads/<?= $post_row['avatar_auteur'] ?>" alt="avatar" width="72px" class="rounded-circle" />
+                            <img src="uploads/<?= $post_row['avatar_auteur'] ?>" alt="avatar" width="72px" height="72px" class="rounded-circle" />
                         </div>
                         <div class="p-3">
                             <h3 class="text-info"><?= $post_row['fullname_auteur'] ?></h3>
@@ -91,24 +105,14 @@
                         <h5 class="card-title border-bottom pb-2">New Articles</h5>
 
                         <div class="row">
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
-                            <div class="col-4 p-2">
-                                <img class="w-100" src="http://placehold.jp/250x250.png" alt="" />
-                            </div>
+                            <?php while ($row = $new_article->fetch(PDO::FETCH_ASSOC)) { ?>
+                                <div class="col-4 p-2">
+                                    <a href="<?= $path . "/single_post.php?id_article=" . $row['id_article'] ?>">
+                                        <img class="w-100 h-100" src="./uploads/<?= $row['image_article'] ?>" alt="" />
+                                    </a>
+                                </div>
+                            <?php } ?>
+
                         </div>
                     </div>
                 </div>
@@ -116,15 +120,12 @@
                     <div class="card-body">
                         <h5 class="card-title border-bottom pb-2">Categories</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item border-0">
-                                <a href="#">Categorie 1</a>
-                            </li>
-                            <li class="list-group-item border-0">
-                                <a href="#">Categorie 2</a>
-                            </li>
-                            <li class="list-group-item border-0">
-                                <a href="#">Categorie 3</a>
-                            </li>
+                            <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
+                                <li class="list-group-item border-0">
+                                    <a href="<?= $path . "/single_category.php?id_categorie=" . $row['id_categorie'] ?>"><?= $row['nom_categorie'] ?></a>
+                                </li>
+                            <?php } ?>
+
                         </ul>
                     </div>
                 </div>
@@ -169,36 +170,27 @@
         <section class="py-5">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title h1 border-bottom pb-4">2 Comments</div>
-                    <div class="card-body d-flex">
-                        <div class="py-4">
-                            <img src="image/avatar.png" alt="avatar" width="96px" class="rounded-circle" />
+                    <div class="card-title h1 border-bottom pb-4"><?= count($nbcomment) ?> Comments</div>
+                    <?php foreach ($nbcomment as  $row) {
+                        # code...
+
+                    ?>
+
+                        <div class="card-body d-flex">
+                            <div class="py-4">
+                                <img src="image/avatar.png" alt="avatar" width="96px" class="rounded-circle" />
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-info"><?= $row['nom_auteur_comentaire'] ?></h3>
+                                <p>
+                                    <?= $row['contenu_commentaire'] ?>
+                                </p>
+                            </div>
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-info">@Visitor</h3>
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Asperiores recusandae optio fugit, architecto delectus quia
-                                nesciunt officiis nemo, illo impedit, nisi perferendis fuga
-                                eos debitis quis adipisci est dolore animi.
-                            </p>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="card-body d-flex">
-                        <div class="py-4">
-                            <img src="image/avatar.png" alt="avatar" width="96px" class="rounded-circle" />
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-info">@Visitor</h3>
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Asperiores recusandae optio fugit, architecto delectus quia
-                                nesciunt officiis nemo, illo impedit, nisi perferendis fuga
-                                eos debitis quis adipisci est dolore animi.
-                            </p>
-                        </div>
-                    </div>
+                        <hr />
+                    <?php } ?>
+
+
                 </div>
             </div>
         </section>
@@ -208,16 +200,17 @@
                     <div class="card-title h1 border-bottom pb-4">
                         Leave Your Comment
                     </div>
-                    <form class="p-5">
+                    <form action="" method="POST" class="p-5">
                         <div class="form-group">
-                            <input type="text" class="form-control col-form-label-lg " id="exampleInputText1" placeholder="Your Name" />
+                            <input type="text" class="form-control col-form-label-lg " name="nom_auteur_comentaire" id="exampleInputText1" placeholder="Your Name" />
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control col-form-label-lg " id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Your Email" />
+                            <input type="email" class="form-control col-form-label-lg " name="email_commentaire" id="exampleInputEmail2" aria-describedby="emailHelp" placeholder="Your Email" />
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control col-form-label-lg" id="exampleFormControlTextarea1" rows="3" placeholder="Your Comment"></textarea>
+                            <textarea class="form-control col-form-label-lg" name="contenu_commentaire" id="exampleFormControlTextarea1" rows="3" placeholder="Your Comment"></textarea>
                         </div>
+
                         <button type="submit" class="btn btn-primary">
                             Post Comment
                         </button>

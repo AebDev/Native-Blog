@@ -61,11 +61,7 @@ if (isset($_REQUEST["id_article"])) {
                                 CKEDITOR.replace('example');
                             </script>
                         </div>
-                        <script>
-                            $(document).ready(function() {
-                                $(".content").richText();
-                            });
-                        </script>
+
                     </div>
                 </div>
             </div>
