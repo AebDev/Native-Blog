@@ -33,7 +33,7 @@
 <body>
     <?php
 
-    include 'functions.php';
+    include 'admin_header.php';
     upload_image();
     $category = get_item("*", "categorie", "");
     $author = get_item("*", "auteur", "");
@@ -76,7 +76,7 @@
     }
 
     ?>
-    <div class="col-11 pl-0 p-5 bg-light">
+    <div class="col-11 pl-0 p-5">
 
         <section class="container">
             <form class="row p-5" action="" method="post" enctype="multipart/form-data">

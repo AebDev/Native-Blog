@@ -23,68 +23,68 @@
 
 <body>
     <?php
-    include 'functions.php';
+    include 'admin_header.php';
     $category = get_item("*", "categorie", "");
-    $path = get_path();
+
     if (isset($_GET["id_categorie"])) {
         del_item("categorie", "id_categorie = " . $_GET["id_categorie"]);
         header("Location: admin_category.php");
     }
     ?>
-    <main>
-        <form action="" method="post">
-            <section class="bg-light p-5">
-                <h2>Categories</h2>
-                <div class="p-3">
-                    <a href="<?= $path ?>/admin_up_category.php" class="btn btn-primary">
 
-                        <i class="fas fa-plus"></i> Ajouter
 
-                    </a>
-                </div>
-                <table class="table table-hover bg-white">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Afficher</th>
-                            <th scope="col">Modifier</th>
-                            <th scope="col">Supprimer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
+    <section class="p-5 mt-5 col-11">
+        <h2>Categories</h2>
+        <div class="p-3">
+            <a href="<?= $path ?>/admin_up_category.php" class="btn btn-primary">
 
-                            <tr>
-                                <th scope="row"><input type="checkbox" value="<?= $row['id_categorie'] ?>" name="id_category" id="" /></th>
-                                <td><img src="uploads/<?= $row['image_categorie'] ?>" alt="<?= $row['image_categorie'] ?>" style="width:100px" /></td>
+                <i class="fas fa-plus"></i> Ajouter
 
-                                <td><?= $row['nom_categorie'] ?></td>
+            </a>
+        </div>
+        <table class="table table-hover bg-white">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Afficher</th>
+                    <th scope="col">Modifier</th>
+                    <th scope="col">Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
 
-                                <td>
-                                    <a href="<?= $path . "/single_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-success ">
-                                        <i class="far fa-eye"></i> Afficher
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="<?= $path . "/admin_up_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-warning ">
-                                        <i class="fas fa-pen"></i> Modifer
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="<?= $path . "/admin_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-danger ">
-                                        <i class="fas fa-trash-alt "></i> Supprimer
-                                    </a>
-                                </td>
-                            </tr>
+                    <tr>
+                        <th scope="row"><input type="checkbox" value="<?= $row['id_categorie'] ?>" name="id_category" id="" /></th>
+                        <td><img src="uploads/<?= $row['image_categorie'] ?>" alt="<?= $row['image_categorie'] ?>" style="width:100px" /></td>
 
-                        <?php } ?>
+                        <td><?= $row['nom_categorie'] ?></td>
 
-                    </tbody>
-                </table>
-            </section>
-        </form>
+                        <td>
+                            <a href="<?= $path . "/single_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-success ">
+                                <i class="far fa-eye"></i> Afficher
+                            </a>
+                        </td>
+                        <td>
+                            <a href="<?= $path . "/admin_up_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-warning ">
+                                <i class="fas fa-pen"></i> Modifer
+                            </a>
+                        </td>
+                        <td>
+                            <a href="<?= $path . "/admin_category.php?id_categorie=" . $row['id_categorie'] ?> " class="btn btn-danger ">
+                                <i class="fas fa-trash-alt "></i> Supprimer
+                            </a>
+                        </td>
+                    </tr>
+
+                <?php } ?>
+
+            </tbody>
+        </table>
+    </section>
+
     </main>
 </body>
 

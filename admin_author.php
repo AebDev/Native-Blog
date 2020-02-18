@@ -23,15 +23,15 @@
 
 <body>
     <?php
-    include 'functions.php';
+    include 'admin_header.php';
     $author = get_item("*", "auteur", "");
-    $path = get_path();
+
     if (isset($_GET["id_auteur"])) {
         del_item("auteur", "id_auteur = " . $_GET["id_auteur"]);
         header("Location: admin_author.php");
     }
     ?>
-    <section class="bg-light p-5">
+    <section class=" p-5 mt-5 col-11">
         <h2>Auteurs</h2>
         <div class="p-3">
             <a href="<?= $path ?>/admin_up_author.php" class="btn btn-primary">
@@ -45,6 +45,7 @@
                     <th scope="col">Avatar</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Afficher</th>
                     <th scope="col">Modifier</th>
                     <th scope="col">Supprimer</th>
                 </tr>
@@ -58,7 +59,7 @@
                         <td><?= $row['email_auteur'] ?></td>
                         <td>
                             <a href="<?= $path . "/single_author.php?id_auteur=" . $row['id_auteur'] ?> " class="btn btn-success ">
-                                <i class="fas fa-pen"></i> Afficher
+                                <i class="far fa-eye"></i> Afficher
                             </a>
                         </td>
                         <td>

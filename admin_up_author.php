@@ -23,7 +23,7 @@
 
 <body>
     <?php
-    include 'functions.php';
+    include 'admin_header.php';
     upload_image();
     $method = "submit";
     $display = "none";
@@ -64,11 +64,11 @@
     ?>
     <div class="col-11 pl-0">
         <form action="" method="post" enctype="multipart/form-data">
-            <section class=" p-5 bg-light">
-                <div class="card bg-white p-5" style="min-height:80vh;">
+            <section class=" p-5 mt-5 ">
+                <div class="card bg-white p-0" style="min-height:80vh;">
                     <div class="card-body">
                         <h5 class="card-title text-center display-4 p-4">Auteur</h5>
-                        <div>
+                        <div class="text-center">
                             <img style="width:200px;height:200px;" class="text-center rounded-circle" id="bash" style="display:<?= $display ?>" src="uploads/<?= $post_row['avatar_auteur'] ?>" alt="">
                         </div>
                         <div class="form-group py-3">

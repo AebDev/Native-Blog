@@ -24,7 +24,7 @@
 <body>
     <?php
 
-    include 'functions.php';
+    include 'admin_header.php';
     upload_image();
 
     $method = "submit";
@@ -63,8 +63,8 @@
     ?>
     <div class="col-11 pl-0">
         <form action="" method="POST" enctype="multipart/form-data">
-            <section class=" p-5 bg-light">
-                <div class="card bg-white p-5" style="min-height:80vh;">
+            <section class=" p-5 mt-5">
+                <div class="card bg-white p-0" style="min-height:80vh;">
                     <div class="card-body">
                         <h5 class="card-title text-center display-4 p-4">Categorie</h5>
                         <div>
