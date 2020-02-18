@@ -26,7 +26,7 @@
     include 'functions.php';
 
     $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur ");
-
+    $category = get_item("*", "categorie", "");
     $path = get_path();
 
 
@@ -103,8 +103,25 @@
                 </div>
             </div>
         </section>
-        <section class="album py-5 bg-light">
+        <section class=" py-5 ">
+            <div class="row justify-content-around flex-wrap">
+                <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
+
+                    <div class="col-2 p-0 m-2 admin_header" style="height: 120px; background-image: url('uploads/<?= $row['image_categorie'] ?>');background-size: 100%;">
+                        <a class=" text-white" href="<?= $path . "/single_category.php?id_categorie=" . $row['id_categorie'] ?> ">
+                            <div class="h-100" style="background-color: #00000050"></div>
+
+                            <h4 style="position: absolute;top:50%;left:50%;transform: translate(-50%,-50%);"><?= $row['nom_categorie'] ?></h4>
+                        </a>
+
+                    </div>
+                <?php } ?>
+            </div>
+        </section>
+        <section class="album py-5 ">
+
             <div class="container">
+
                 <div class="row">
 
                     <?php while ($row = $article->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -116,16 +133,16 @@
 
                                 <div class="card-body">
                                     <div class="d-flex">
-                                        <div>
+                                        <div class="pr-2">
                                             <img src="uploads/<?= $row['avatar_auteur'] ?>" alt="avatar" width="72px" height="72px" class="rounded-circle" />
                                         </div>
                                         <div class="p-1">
-                                            <h2><?= $row['title_article'] ?></h2>
+                                            <h2 class="text-break"><?= $row['title_article'] ?></h2>
                                             <h6 class="text-info"><?= $row['fullname_auteur'] ?></h6>
                                         </div>
                                     </div>
 
-                                    <p class="card-text " style="font-size: revert;">
+                                    <p class="card-text " style="height:70px">
                                         <?= preview_para($row['contenu_article']) ?>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -175,7 +192,7 @@
                         </div>
                     </div>
                     <div class="card bg-light form--hover-parent2" style="position: relative;">
-                        <div class="bg-info form--hover-title1"></div>
+                        <div class=" form--hover-title1"></div>
 
                         <div class="card-body">
                             <form class="p-5">

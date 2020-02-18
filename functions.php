@@ -39,6 +39,7 @@ function get_item($col, $table, $condition)
 {
     include 'connection.php';
     $sql = "SELECT $col FROM $table " . $condition;
+
     $result = $con->query($sql);
     return $result;
 }

@@ -38,7 +38,7 @@
         <section class="row">
             <div class="col-8 p-5">
                 <div>
-                    <p class="display-4 pb-3">
+                    <p class="display-4 pb-3 text-break">
                         <?= $post_row['title_article'] ?>
                     </p>
                     <div class="row justify-content-between">
@@ -55,7 +55,7 @@
                     <img class="w-100" src="uploads/<?= $post_row['image_article'] ?>" alt="<?= $post_row['image_article'] ?>" />
                 </div>
                 <div>
-                    <p style="font-size: 20px;line-height: 30px;">
+                    <p style="font-size: 20px;line-height: 30px; text-break">
                         <?= $post_row['contenu_article'] ?>
                     </p>
                 </div>
