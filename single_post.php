@@ -26,19 +26,32 @@
     <?php
     include 'functions.php';
 
-    $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur where id_article=" . $_REQUEST['id_article']);
-    $new_article = get_item("*", "article", " limit 6");
+    $article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur ");
+
     $category = get_item("*", "categorie", "");
 
 
     $comment = get_item("*", "comentaire", " where id_article = " . $_REQUEST['id_article'] . " order by id_comentaire DESC");
     $nbcomment = $comment->fetchAll(PDO::FETCH_ASSOC);
+    $allarticle = $article->fetchAll(PDO::FETCH_ASSOC);
+
+    for ($i = 0; $i < count($allarticle); $i++) {
+
+        if ($allarticle[$i]['id_article'] == $_REQUEST['id_article']) {
+            $post_row = $allarticle[$i];
+            if (isset($allarticle[$i + 1])) {
+                $next_row = $allarticle[$i + 1];
+            }
+            if (isset($allarticle[$i - 1])) {
+                $prev_row = $allarticle[$i - 1];
+            }
+        }
+    }
+
 
     $path = get_path();
-    var_dump($nbcomment[1]['email_commentaire']);
-    while ($row = $article->fetch(PDO::FETCH_ASSOC)) {
-        $post_row = array_merge($row);
-    }
+
+
 
     if (isset($_REQUEST['nom_auteur_comentaire'])) {
         $col = array("nom_auteur_comentaire", "email_commentaire", "contenu_commentaire", "id_article",);
@@ -105,13 +118,16 @@
                         <h5 class="card-title border-bottom pb-2">New Articles</h5>
 
                         <div class="row">
-                            <?php while ($row = $new_article->fetch(PDO::FETCH_ASSOC)) { ?>
-                                <div class="col-4 p-2">
-                                    <a href="<?= $path . "/single_post.php?id_article=" . $row['id_article'] ?>">
-                                        <img class="w-100 h-100" src="./uploads/<?= $row['image_article'] ?>" alt="" />
-                                    </a>
-                                </div>
-                            <?php } ?>
+                            <?php for ($i = 0; $i < 6; $i++) {
+                                if (isset($allarticle[$i])) {
+                            ?>
+                                    <div class="col-4 p-2">
+                                        <a href="<?= $path . "/single_post.php?id_article=" . $allarticle[$i]['id_article'] ?>">
+                                            <img class="w-100 h-100" src="./uploads/<?= $allarticle[$i]['image_article'] ?>" alt="<?= $allarticle[$i]['image_article'] ?>" />
+                                        </a>
+                                    </div>
+                            <?php }
+                            } ?>
 
                         </div>
                     </div>
@@ -133,62 +149,81 @@
         </section>
         <section>
             <div class="row">
-                <div class="col-6">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <div class="card-body prev">
-                                <div class="card-title">
-                                    <i class="fas fa-arrow-left px-5"></i> Prev
-                                </div>
-                                <div class="card-body">
-                                    <h2 class="display-4 ">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6">
-                    <a href="#" class="text-decoration-none">
+
+                <?php
+                if (isset($prev_row)) {
+                    echo '<div class="col-6">
+                    <a href="' . $path . '/single_post.php?id_article=' . $prev_row["id_article"] . '" class="text-decoration-none">
                         <div class="card">
                             <div class="card-body next">
-                                <div class="card-title text-right">
-                                    Next <i class="fas fa-arrow-right px-5"></i>
+                                <div class="card-title h5">
+                                <i class="fas fa-arrow-left px-5"></i> Prev
                                 </div>
-                                <div class="card-body">
-                                    <h2 class="display-4">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                <div class="card-body row" style="height:250px">
+                                <div class="col-6">
+                                <img class="w-100" src="uploads/' . $prev_row["image_article"] . '" alt="">
+                                </div>
+                                    <h2 class="h2 col-6">
+                                        ' . $prev_row["title_article"] . '
                                     </h2>
                                 </div>
                             </div>
                         </div>
                     </a>
-                </div>
+                </div>';
+                } else {
+                    echo '<div class="col-6 "></div>';
+                }
+                if (isset($next_row)) {
+                    echo '<div class="col-6">
+                    <a href="' . $path . '/single_post.php?id_article=' . $next_row["id_article"] . '" class="text-decoration-none">
+                        <div class="card">
+                            <div class="card-body next">
+                                <div class="card-title text-right h5">
+                                    Next <i class="fas fa-arrow-right px-5"></i>
+                                </div>
+                                <div class="card-body row" style="height:250px">
+                                <div class="col-6">
+                                <img class="w-100" src="uploads/' . $next_row["image_article"] . '" alt="">
+                                </div>
+                                    <h2 class="h2 col-6">
+                                        ' . $next_row["title_article"] . '
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>';
+                } ?>
             </div>
         </section>
         <section class="py-5">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title h1 border-bottom pb-4"><?= count($nbcomment) ?> Comments</div>
-                    <?php foreach ($nbcomment as  $row) {
-                        # code...
+                    <?php
+                    if ($nbcomment > 0) {
+                        foreach ($nbcomment as  $row) {
+                            # code...
 
                     ?>
 
-                        <div class="card-body d-flex">
-                            <div class="py-4">
-                                <img src="image/avatar.png" alt="avatar" width="96px" class="rounded-circle" />
+                            <div class="card-body d-flex">
+                                <div class="py-4">
+                                    <img src="image/avatar.png" alt="avatar" width="96px" class="rounded-circle" />
+                                </div>
+                                <div class="p-4 ">
+                                    <h3 class="text-info"><?= $row['nom_auteur_comentaire'] ?></h3>
+                                    <div class="bg-light rounded-pill w-100 px-3 py-3">
+                                        <p>
+                                            <?= $row['contenu_commentaire'] ?>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="p-4">
-                                <h3 class="text-info"><?= $row['nom_auteur_comentaire'] ?></h3>
-                                <p>
-                                    <?= $row['contenu_commentaire'] ?>
-                                </p>
-                            </div>
-                        </div>
-                        <hr />
-                    <?php } ?>
+                            <hr />
+                    <?php }
+                    } ?>
 
 
                 </div>
