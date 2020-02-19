@@ -60,9 +60,15 @@ function del_item($table, $condition)
 function up_item($table, $colval, $condition)
 {
     include 'connection.php';
-    foreach ($colval as $key => $value) {
-        $result[$key] = "$key = $value";
+    if (is_string($colval)) {
+        $result[0] = $colval;
+    } else {
+        foreach ($colval as $key => $value) {
+            $result[$key] = "$key = $value";
+        }
     }
+
+    var_dump($result);
     $sql = "UPDATE $table SET  " . implode(", ", $result) . " WHERE $condition";
     $result = $con->query($sql);
 }

@@ -71,6 +71,12 @@ $path = get_path();
                                 <h5>Categorie</h5>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link admin_header h2 text-center" href="<?= $path ?>/admin_comment.php"><i class="fas fa-comments "></i>
+                                <br>
+                                <h5>Comentaire</h5>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>

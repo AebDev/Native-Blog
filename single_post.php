@@ -31,7 +31,7 @@
     $category = get_item("*", "categorie", "");
 
 
-    $comment = get_item("*", "comentaire", " where id_article = " . $_REQUEST['id_article'] . " order by id_comentaire DESC");
+    $comment = get_item("*", "comentaire", " where id_article = " . $_REQUEST['id_article'] . " and comentaire_visibility = 1 order by id_comentaire DESC");
     $nbcomment = $comment->fetchAll(PDO::FETCH_ASSOC);
     $allarticle = $article->fetchAll(PDO::FETCH_ASSOC);
 
