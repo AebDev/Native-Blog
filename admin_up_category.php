@@ -8,16 +8,16 @@ $display = "none";
 
 if (isset($_REQUEST['submit'])) {
     $col = array("nom_categorie", "image_categorie");
-    $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
+    $val = array("'" . validation($_REQUEST["nom_categorie"]) . "'", "'" . validation($_FILES['picture']['name']) . "'");
     add_item("categorie", $col, $val);
     header("Location: admin_category.php");
 }
 
 if (isset($_REQUEST['update'])) {
-    if (($_FILES['picture']['name'] == "")) {
-        $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_REQUEST['image_categorie'] . "'");
+    if ((!$_FILES['picture']['name'])) {
+        $val = array("'" . validation($_REQUEST["nom_categorie"]) . "'", "'" . validation($_REQUEST['image_categorie']) . "'");
     } else {
-        $val = array("'" . $_REQUEST["nom_categorie"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        $val = array("'" . validation($_REQUEST["nom_categorie"]) . "'", "'" . validation($_FILES['picture']['name']) . "'");
     }
     $col = array("nom_categorie", "image_categorie");
 
@@ -26,7 +26,7 @@ if (isset($_REQUEST['update'])) {
 }
 
 $post_row['nom_categorie'] = "";
-$post_row['image_categorie'] = "";
+$post_row['image_categorie'] = "choisi image...";
 
 if (isset($_REQUEST["id_categorie"])) {
     $display = "block";
@@ -52,9 +52,10 @@ if (isset($_REQUEST["id_categorie"])) {
 
                     <div class="custom-file py-4">
                         <input type="file" class="custom-file-input " onchange="readURL(this);" name="picture" id="picture" accept="image/*" />
-                        <label class="custom-file-label" for="picture">Choose Image</label>
+                        <label class="custom-file-label" for="picture"><?= $post_row['image_categorie'] ?></label>
                     </div>
 
+                    <input type="text" style="display: none" name="image_categorie" value="<?= $post_row['image_categorie'] ?>" id="">
                     <div class="form-group m-0 py-4">
                         <button type="submit" name="<?= $method ?>" class="btn btn-primary w-100">
                             Save

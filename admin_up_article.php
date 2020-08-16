@@ -9,7 +9,7 @@ $image_name = "cloud.svg";
 $test = "";
 if (isset($_REQUEST['submit'])) {
     $col = array("title_article", "contenu_article", "image_article", "date_article", "id_categorie", "id_auteur");
-    $val = array("'" . $_REQUEST["title"] . "'", "'" . $_REQUEST["example"] . "'", "'" . $_FILES['picture']['name'] . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
+    $val = array("'" . validation($_REQUEST["title"]) . "'", "'" . para_validation($_REQUEST["example"]) . "'", "'" . validation($_FILES['picture']['name']) . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
     add_item("article", $col, $val);
     header("Location: admin_article.php");
 }
@@ -17,9 +17,9 @@ if (isset($_REQUEST['submit'])) {
 if (isset($_REQUEST['update'])) {
 
     if (($_FILES['picture']['name'] == "")) {
-        $val = array("'" . $_REQUEST["title"] . "'", "'" . $_REQUEST["example"] . "'", "'" . $_REQUEST['image_article'] . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
+        $val = array("'" . validation($_REQUEST["title"]) . "'", "'" . para_validation($_REQUEST["example"]) . "'", "'" . validation($_REQUEST['image_article']) . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
     } else {
-        $val = array("'" . $_REQUEST["title"] . "'", "'" . $_REQUEST["example"] . "'", "'" . $_FILES['picture']['name'] . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
+        $val = array("'" . validation($_REQUEST["title"]) . "'", "'" . para_validation($_REQUEST["example"]) . "'", "'" . validation($_FILES['picture']['name']) . "'", "'" . date('Y-m-d H:i:s') . "'", $_REQUEST["categorie"], $_REQUEST["auteur"]);
     }
 
     $col = array("title_article", "contenu_article", "image_article", "date_article", "id_categorie", "id_auteur");

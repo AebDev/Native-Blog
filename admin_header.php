@@ -39,7 +39,7 @@ $path = get_path();
     <header>
         <!-- As a link -->
         <nav class="navbar fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="<?= $path ?>">Navbar</a>
+            <a class="navbar-brand" href="<?= $path ?>"><img src="./uploads/Native.png" width="200px" alt=""></a>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                 Search
             </button>

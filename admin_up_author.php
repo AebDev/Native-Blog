@@ -6,7 +6,7 @@ $display = "none";
 
 if (isset($_REQUEST['submit'])) {
     $col = array("fullname_auteur", "email_auteur", "avatar_auteur");
-    $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_FILES['picture']['name'] . "'");
+    $val = array("'" . validation($_REQUEST["name_auteur"]) . "'", "'" . validation($_REQUEST["email_auteur"]) . "'", "'" . validation($_FILES['picture']['name']) . "'");
     add_item("auteur", $col, $val);
     header("Location: admin_author.php");
 }
@@ -14,9 +14,9 @@ if (isset($_REQUEST['submit'])) {
 if (isset($_REQUEST['update'])) {
 
     if (($_FILES['picture']['name'] == "")) {
-        $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_REQUEST['avatar_label'] . "'");
+        $val = array("'" . validation($_REQUEST["name_auteur"]) . "'", "'" . validation($_REQUEST["email_auteur"]) . "'", "'" . validation($_REQUEST['avatar_label']) . "'");
     } else {
-        $val = array("'" . $_REQUEST["name_auteur"] . "'", "'" . $_REQUEST["email_auteur"] . "'", "'" . $_FILES['picture']['name'] . "'");
+        $val = array("'" . validation($_REQUEST["name_auteur"]) . "'", "'" . validation($_REQUEST["email_auteur"]) . "'", "'" . validation($_FILES['picture']['name']) . "'");
     }
 
     $col = array("fullname_auteur", "email_auteur", "avatar_auteur");

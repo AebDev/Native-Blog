@@ -30,6 +30,7 @@ function add_item($table, $arr1, $arr2)
 
     $con->exec($sql);
 }
+
 function get_path()
 {
     return pathinfo($_SERVER['PHP_SELF'])["dirname"];
@@ -42,6 +43,26 @@ function get_item($col, $table, $condition)
     $result = $con->query($sql);
 
     return $result;
+}
+
+function validation($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = addslashes($data);
+    $data = htmlspecialchars($data);
+
+    return $data;
+}
+
+function para_validation($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = addslashes($data);
+
+
+    return $data;
 }
 
 function preview_para($para)
@@ -68,7 +89,7 @@ function up_item($table, $colval, $condition)
         }
     }
 
-    var_dump($result);
+
     $sql = "UPDATE $table SET  " . implode(", ", $result) . " WHERE $condition";
     $result = $con->query($sql);
 }
