@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
-$user = "admin";
-$pwd = "admin";
+$user = "root";
+$pwd = "";
 $db_name = "blog_native";
 
 try {

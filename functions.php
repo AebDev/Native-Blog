@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 function upload_image()
 {
 
@@ -68,7 +66,7 @@ function para_validation($data)
 function preview_para($para)
 {
     $para = preg_replace("/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($para))));
-    return implode(' ', array_slice(explode(' ', $para), 0, 9));
+    return implode(' ', array_slice(explode(' ', $para), 0, 50)).'...';
 }
 
 function del_item($table, $condition)

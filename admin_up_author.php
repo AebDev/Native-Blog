@@ -38,8 +38,9 @@ if (isset($_REQUEST["id_auteur"])) {
     }
 }
 ?>
-<div class="col-11 pl-0">
-    <form action="" method="post" enctype="multipart/form-data">
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
+        <form action="" method="post" enctype="multipart/form-data">
         <section class=" p-5 mt-5 ">
             <div class="card bg-white p-0" style="min-height:80vh;">
                 <div class="card-body">
@@ -69,7 +70,8 @@ if (isset($_REQUEST["id_auteur"])) {
             </div>
         </section>
     </form>
-</div>
+        </div>
+</main>
 <script>
     $(document).ready(function() {
 
@@ -93,6 +95,6 @@ if (isset($_REQUEST["id_auteur"])) {
         }
     }
 </script>
-</body>
-
-</html>
+<?php 
+include 'admin_footer.php';
+?>

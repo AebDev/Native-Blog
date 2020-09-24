@@ -1,84 +1,99 @@
 <?php
 include 'functions.php';
 $path = get_path();
+session_start();
+if (!isset($_SESSION['username'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+}
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['username']);
+    header("location: login.php");
+}
+$active_article = '';
+$active_auteur = '';
+$active_categorie = '';
+$active_comentaire = '';
+if (basename($_SERVER['PHP_SELF']) == 'admin_article.php') {
+    $active_article = 'is-active';
+}
+if (basename($_SERVER['PHP_SELF']) == 'admin_author.php') {
+    $active_auteur = 'is-active';
+}
+if (basename($_SERVER['PHP_SELF']) == 'admin_category.php') {
+    $active_categorie = 'is-active';
+}
+if (basename($_SERVER['PHP_SELF']) == 'admin_comment.php') {
+    $active_comentaire = 'is-active';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= basename($_SERVER['SCRIPT_NAME']) ?></title>
-    <!--start css-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/slider.css" />
-    <link rel="stylesheet" href="css/animation.css" />
-
-    <!--end css-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-v8BU367qNbs/aIZIxuivaU55N5GPF89WBerHoGA4QTcbUjYiLQtKdrfXnqAcXyTv" crossorigin="anonymous" />
-    <link rel="stylesheet" href="src/richtext.min.css" />
-
-    <!--start js-->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-    <!--text editor script-->
-
-    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-    <!--text editor script-->
-
-
-    <script src="script.js"></script>
-    <!--end js-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script> 
 </head>
-
-<body>
-
-    <header>
-        <!-- As a link -->
-        <nav class="navbar fixed-top navbar-dark bg-dark">
-            <a class="navbar-brand" href="<?= $path ?>"><img src="./uploads/Native.png" width="200px" alt=""></a>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                Search
-            </button>
-        </nav>
-
-        <!-- As a heading -->
-    </header>
-    <main class="row bg-light">
-
-        <div class="col-1 pr-0">
-            <nav class="navbar position-fixed  navbar-dark bg-dark" style="top:0;bottom:0;height:100vh;">
-                <div class="row  px-3">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link admin_header h2 text-center" href="<?= $path ?>/admin_article.php"><i class="fas fa-th-list"></i>
-                                <br>
-                                <h5> Article</h5>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin_header h2 text-center" href="<?= $path ?>/admin_author.php"><i class="fas fa-users"></i>
-                                <br>
-                                <h5>Auteur</h5>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin_header h2 text-center" href="<?= $path ?>/admin_category.php"><i class="fas fa-tags "></i>
-                                <br>
-                                <h5>Categorie</h5>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin_header h2 text-center" href="<?= $path ?>/admin_comment.php"><i class="fas fa-comments "></i>
-                                <br>
-                                <h5>Comentaire</h5>
-                            </a>
-                        </li>
-
-                    </ul>
+<body class="sidebar-is-reduced">
+    <header class="l-header">
+        <div class="l-header__inner clearfix">
+            <div class="c-header-icon js-hamburger">
+                <div class="hamburger-toggle"><span class="bar-top"></span><span class="bar-mid"></span><span class="bar-bot"></span></div>
+            </div>
+            <?php if (isset($_SESSION['username'])) : ?>
+                <div class="header-icons-group">
+                    <a href="admin_header.php?logout='1'" style="color: red;">
+                        <div class="c-header-icon logout"><i class="fa fa-power-off"></i></div>
+                    </a>
                 </div>
+            <?php endif ?>
+        </div>
+    </header>
+    <div class="l-sidebar">
+        <div class="logo">
+            <a class="logo__txt" href="<?= $path ?>"><img src="./assets/img/logo/adminlogo.png" width="50" alt=""></a>
+        </div>
+        <div class="l-sidebar__content">
+            <nav class="c-menu js-menu">
+                <ul class="u-list">
+                    <li class="c-menu__item <?= $active_article ?>" data-toggle="tooltip" title="Article">
+                        <a style="color: #fff;text-decoration: none;" href="<?= $path ?>/admin_article.php">
+                            <div class="c-menu__item__inner"><i class="fas fa-th-list"></i>
+                                <div class="c-menu-item__title"><span>Article </span></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="c-menu__item <?= $active_auteur ?>" data-toggle="tooltip" title="Auteur">
+                        <a style="color: #fff;text-decoration: none;" href="<?= $path ?>/admin_author.php">
+                            <div class="c-menu__item__inner"><i class="fas fa-users"></i>
+                                <div class="c-menu-item__title"><span>Auteur</span></div>
+                            </div>
+                            <a>
+                    </li>
+                    <li class="c-menu__item <?= $active_categorie ?>" data-toggle="tooltip" title="Categorie">
+                        <a style="color: #fff;text-decoration: none;" href="<?= $path ?>/admin_category.php">
+                            <div class="c-menu__item__inner"><i class="fas fa-tags"></i>
+                                <div class="c-menu-item__title"><span>Categorie</span></div>
+                            </div>
+                            <a>
+                    </li>
+                    <li class="c-menu__item <?= $active_comentaire ?>" data-toggle="tooltip" title="Comentaire">
+                        <a style="color: #fff;text-decoration: none;" href="<?= $path ?>/admin_comment.php">
+                            <div class="c-menu__item__inner"><i class="fas fa-comments"></i>
+                                <div class="c-menu-item__title"><span>Comentaire</span></div>
+                            </div>
+                        <a>
+                    </li>
+                </ul>
             </nav>
         </div>
+    </div>

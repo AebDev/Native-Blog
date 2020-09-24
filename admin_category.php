@@ -3,22 +3,25 @@ include 'admin_header.php';
 $category = get_item("*", "categorie", "");
 
 if (isset($_GET["id_categorie"])) {
-    del_item("categorie", "id_categorie = " . $_GET["id_categorie"]);
-    header("Location: admin_category.php");
+    
+    
+        del_item("categorie", "id_categorie = " . $_GET["id_categorie"]);
+        header("Location: admin_category.php");
+    
 }
 ?>
 
-
-<section class="p-5 mt-5 col-11">
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
     <h2>Categories</h2>
     <div class="p-3">
-        <a href="<?= $path ?>/admin_up_category.php" class="btn btn-primary">
+        <a href="<?= $path ?>/admin_up_category.php" class="btn btn-primary" style="margin-bottom: 20px;">
 
             <i class="fas fa-plus"></i> Ajouter
 
         </a>
     </div>
-    <table class="table table-hover bg-white">
+    <table class="table table-hover bg-white" style="background-color: #fff;">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -33,7 +36,7 @@ if (isset($_GET["id_categorie"])) {
             <?php while ($row = $category->fetch(PDO::FETCH_ASSOC)) { ?>
 
                 <tr>
-                    <th scope="row"><input type="checkbox" value="<?= $row['id_categorie'] ?>" name="id_category" id="" /></th>
+                    <th scope="row"><?= $row['id_categorie'] ?></th>
                     <td><img src="uploads/<?= $row['image_categorie'] ?>" alt="<?= $row['image_categorie'] ?>" style="width:100px" /></td>
 
                     <td><?= $row['nom_categorie'] ?></td>
@@ -59,9 +62,9 @@ if (isset($_GET["id_categorie"])) {
 
         </tbody>
     </table>
-</section>
+    </div>
 
 </main>
-</body>
-
-</html>
+<?php 
+include 'admin_footer.php';
+?>

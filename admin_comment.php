@@ -23,10 +23,11 @@ if (isset($_GET["id_comentaire"])) {
     }
 }
 ?>
-<section class=" p-5 mt-5 col-11">
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
     <h2>Comentaire</h2>
 
-    <table class="table table-hover bg-white">
+    <table class="table table-hover bg-white" style="background-color: #fff;">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -41,7 +42,7 @@ if (isset($_GET["id_comentaire"])) {
         <tbody>
             <?php while ($row = $comment->fetch(PDO::FETCH_ASSOC)) { ?>
                 <tr>
-                    <th scope="row"><input type="checkbox" value="<?= $row['id_comentaire'] ?>" name="id_comentaires" id="" /></th>
+                    <th scope="row"><?= $row['id_comentaire'] ?></th>
                     <td><?= $row['id_article'] ?></td>
                     <td><?= $row['nom_auteur_comentaire'] ?></td>
                     <td><?= $row['email_commentaire'] ?></td>
@@ -67,7 +68,8 @@ if (isset($_GET["id_comentaire"])) {
 
         </tbody>
     </table>
-</section>
-</body>
-
-</html>
+        </div>
+</main>
+<?php 
+include 'admin_footer.php';
+?>

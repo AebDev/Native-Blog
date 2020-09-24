@@ -10,14 +10,15 @@ if (isset($_GET["id_article"])) {
 
 ?>
 
-<section class=" p-5 mt-5 col-11">
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
     <h2>Articles</h2>
     <div class="p-3">
-        <a href="<?= $path ?>/admin_up_article.php" class="btn btn-primary">
+        <a href="<?= $path ?>/admin_up_article.php" class="btn btn-primary" style="margin-bottom: 20px;">
             <i class="fas fa-plus"></i> Ajouter
         </a>
     </div>
-    <table class="table table-hover bg-white">
+    <table class="table table-hover bg-white" style="background-color: #fff;">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -34,7 +35,7 @@ if (isset($_GET["id_article"])) {
         <tbody>
             <?php while ($row = $article->fetch(PDO::FETCH_ASSOC)) { ?>
                 <tr>
-                    <th scope="row"><input type="checkbox" value="<?= $row['id_article'] ?>" name=" id_article" id="" /></th>
+                    <th scope="row"><?= $row['id_article'] ?></th>
                     <td><img src="uploads/<?= $row['image_article'] ?>" alt="<?= $row['image_article'] ?>" style="width:100px" /></td>
                     <td class="text-break"><?= $row['title_article'] ?></td>
 
@@ -61,8 +62,11 @@ if (isset($_GET["id_article"])) {
 
         </tbody>
     </table>
-</section>
-</main>
-</body>
+            
 
-</html>
+        </div>
+    </main>
+    
+<?php 
+include 'admin_footer.php';
+?>

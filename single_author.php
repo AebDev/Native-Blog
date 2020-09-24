@@ -1,212 +1,105 @@
 <?php
-include 'home_header.php';
+include 'header.php';
 
-$article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur where article.id_categorie = " . $_REQUEST['id_auteur']);
+$record_per_page = 6;
+$page = '';
+if (isset($_GET["page"])) {
+    $page = $_GET["page"];
+} else {
+    $page = 1;
+}
+$start_from = ($page - 1) * $record_per_page;
+
+$article = get_item("*", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur where article.id_auteur = " . $_REQUEST['id_auteur'].' ORDER BY article.date_article DESC LIMIT '.$start_from.','.$record_per_page);
+$count = get_item("count(id_article) as count", "article", "JOIN categorie on categorie.id_categorie = article.id_categorie JOIN auteur on auteur.id_auteur = article.id_auteur where article.id_auteur = " . $_REQUEST['id_auteur']);
 $author = get_item("*", "auteur", " where id_auteur = " . $_REQUEST['id_auteur']);
 
 $path = get_path();
 $test = $author->fetch(PDO::FETCH_ASSOC);
+$c = $count->fetch(PDO::FETCH_ASSOC);
+
+$card_color = ['tag-blue','tag-purple','tag-pink','tag-nevy','tag-violet','tag-carrot','tag-rosepink'];
+
+$active_path = 'single_author.php?id_auteur='.$_REQUEST['id_auteur'].'&';
+
+$page_query = get_item("count(*) as count", "article", " where id_auteur = " . $_REQUEST['id_auteur'].' ORDER BY id_article DESC');
 
 
 ?>
-<header class="sticky-top navbar-hide-on-scroll.fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-light" style="height: 20vh;background-color: #ffffff;">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav m-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?= $path ?>/admin_article.php" class="nav-link" href="#">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"></a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Ajouter
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Article</a>
-                        <a class="dropdown-item" href="#">Auteur</a>
-                        <a class="dropdown-item" href="#">Categorie</a>
+<main>
+        <!-- Breadcrumb Section -->
+        <div class="page-bredcrumb-menu mediumgray-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-title">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="<?= $path ?>">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="<?= $path ?>/authors.php">Authors</a></li>
+                                    <li class="breadcrumb-item active">Single Author</li>
+                                </ol>
+                            </nav>
+                        </div>
                     </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categories
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Categorie1</a>
-                        <a class="dropdown-item" href="#">Categorie2</a>
-                        <a class="dropdown-item" href="#">Categorie3</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                    Search
-                </button>
-            </form>
+                </div>
+            </div>
         </div>
-    </nav>
-</header>
-<main role="main">
-    <div class="text-center p-5"><img style="height:200px;width:200px" class="rounded-circle" src="uploads/<?= $test['avatar_auteur'] ?>"></div>
-    <h5 class="display-3 text-center p-5">
-        <?= $test['fullname_auteur'] ?>
-    </h5>
-    </section>
-    <section class="album py-5 bg-light">
-        <div class="container">
-            <div class="row">
+        <!-- /Breadcrumb Section -->
+        <div class="single-tag-sec p-top-12">
+            <div class="container-fluid">
+                <div class="tag-head author-head">
+                    <div class="single-tag-block text-center position-relative" style="background: linear-gradient( -64deg, rgb(9,32,63,.72) 0%, rgb(5,13,24,.72) 99%),url('assets/img/sliders/3.jpg') no-repeat scroll center/cover">
+                        <span data-aos="fade-up" class="border-style"></span>
+                        <span class="written" data-aos="fade-up-left"><i class="fa fa-pencil mr-2"></i><?= $c['count'] ?> Articles written by Cliff Hanger</span>
+                        <div class="col-lg-8 offset-lg-2" data-aos="fade-up">
+                            <div class="author-pro"><img src="uploads/<?= $test['avatar_auteur'] ?>" alt="Cliff Hanger"></div>
+                            <h2><?= $test['fullname_auteur'] ?></h2>
+                            
+                            <ul class="header-social d-flex justify-content-center mb-4 pb-2">
+                                <li><a href="<?= $test['facebook_auteur'] ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="<?= $test['twitter_auteur'] ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="<?= $test['linkdin_auteur'] ?>" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="mailto: <?= $test['email_auteur'] ?>" target="_blank"><i class="fa fa-envelope"></i></a></li>
+                            </ul>
+                            <p><?= $test['description_auteur'] ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-padding">
+            <div class="container">
+                <div class="row blog-grid blog-authors-wrapper">
 
                 <?php while ($row = $article->fetch(PDO::FETCH_ASSOC)) { ?>
-                    <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-img-top" style="height: 200px">
-                                <img class="w-100" src="uploads/<?= $row['image_article'] ?>" alt="<?= $row['image_article'] ?>" />
-                            </div>
-
-                            <div class="card-body bg-white">
-                                <div class="d-flex">
-                                    <div class="pr-2">
-                                        <img src="uploads/<?= $row['avatar_auteur'] ?>" alt="avatar" width="72px" height="72px" class="rounded-circle" />
-                                    </div>
-                                    <div class="p-1">
-                                        <h4 class="text-break"><?= $row['title_article'] ?></h4>
-                                        <h6 class="text-info"><?= $row['fullname_auteur'] ?></h6>
-                                    </div>
+                    <div class="col-lg-4 col-md-6 pb-4 scrollitem" data-aos="fade-up">
+                        <article class="post-card post tag-food tag-lifestyle tag-portfolio tag-blue <?=$card_color[rand(0,6)] ?> featured">
+                            <div class="text-block">
+                                <div class="post-meta">
+                                    <span class="meta-detail">By <a href="#" class="d-inline-block author-name"><?= $row['fullname_auteur'] ?></a> &nbsp;&nbsp;||&nbsp;&nbsp; <span class="date-time">on <?= date_format(date_create($row['date_article']),'d M Y') ?></span></span>
                                 </div>
-
-                                <p class="card-text " style="height:70px">
-                                    <?= preview_para($row['contenu_article']) ?>
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <a href="<?= $path . "/single_post.php?id_article=" . $row['id_article'] ?>" class="btn btn-sm btn-outline-secondary btn--article bg-success text-white px-2 d-flex">
-                                            <i class="far fa-eye p-1"></i>
-                                            <span class="btn--article-hover"> Read</span>
-                                        </a>
-
-                                    </div>
-                                    <small class="text-muted"><?= $row['date_article'] ?></small>
+                                <div class="post-card-content">
+                                    <h3 class="title"><a href="<?= $path . "/single_post.php?id_article=" . $row['id_article'] ?>"><?= $row['title_article'] ?></a></h3>
                                 </div>
+                                <a href="<?= $path . "/single_category.php?id_categorie=" . $row['id_categorie'] ?>" class="post-tag"><?= $row['nom_categorie'] ?></a>
                             </div>
-                        </div>
+                        </article>
                     </div>
                 <?php } ?>
 
+                    
+                </div>
+                <?php
+
+include 'pagination.php';
+
+?>
             </div>
         </div>
-    </section>
-    <section>
-        <div class="container ">
-            <div class="card-group p-5">
-                <div class="card bg-light form--hover-parent1" style="position: relative;">
-                    <div class="bg-black form--hover-title2"></div>
-                    <div class="card-body">
-                        <form class="p-5">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Login</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" />
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                Connecter
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                Inscrire
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="card bg-light form--hover-parent2" style="position: relative;">
-                    <div class="bg-info form--hover-title1"></div>
+    </main>
 
-                    <div class="card-body">
-                        <form class="p-5">
-                            <div class="form-group">
-                                <label for="exampleInputText1">Nom</label>
-                                <input type="text" class="form-control" id="exampleInputText1" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail2">Email</label>
-                                <input type="email" class="form-control" id="exampleInputEmail2" aria-describedby="emailHelp" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputText2">Sujet</label>
-                                <input type="text" class="form-control" id="exampleInputText2" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Message</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                Envoyer
-                            </button>
-                            <button type="reset" class="btn btn-primary">
-                                Effacer
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
-
-<footer class="px-4  p-md-5 bg-dark text-white">
-    <div class="row">
-        <div class="col-12 col-md">
-            <img class="mb-2" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24" />
-            <small class="d-block mb-3 text-muted">&copy; 2017-2019</small>
-        </div>
-        <div class="col-6 col-md">
-            <h5>Features</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Random feature</a></li>
-                <li><a class="text-muted" href="#">Team feature</a></li>
-                <li><a class="text-muted" href="#">Cool stuff</a></li>
-                <li><a class="text-muted" href="#">Stuff for developers</a></li>
-                <li><a class="text-muted" href="#">Another one</a></li>
-                <li><a class="text-muted" href="#">Last time</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md">
-            <h5>Resources</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Resource</a></li>
-                <li><a class="text-muted" href="#">Resource name</a></li>
-                <li><a class="text-muted" href="#">Another resource</a></li>
-                <li><a class="text-muted" href="#">Final resource</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md">
-            <h5>About</h5>
-            <ul class="list-unstyled text-small">
-                <li><a class="text-muted" href="#">Team</a></li>
-                <li><a class="text-muted" href="#">Locations</a></li>
-                <li><a class="text-muted" href="#">Privacy</a></li>
-                <li><a class="text-muted" href="#">Terms</a></li>
-            </ul>
-        </div>
-    </div>
-</footer>
-</body>
-
-</html>
+<?php 
+include 'footer.php';
+?>

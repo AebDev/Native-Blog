@@ -11,6 +11,7 @@ if (isset($_REQUEST['submit'])) {
     $val = array("'" . validation($_REQUEST["nom_categorie"]) . "'", "'" . validation($_FILES['picture']['name']) . "'");
     add_item("categorie", $col, $val);
     header("Location: admin_category.php");
+    // header("Refresh:0");
 }
 
 if (isset($_REQUEST['update'])) {
@@ -37,8 +38,10 @@ if (isset($_REQUEST["id_categorie"])) {
     }
 }
 ?>
-<div class="col-11 pl-0">
-    <form action="" method="POST" enctype="multipart/form-data">
+
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
+<<form action="" method="POST" enctype="multipart/form-data">
         <section class=" p-5 mt-5">
             <div class="card bg-white p-0" style="min-height:80vh;">
                 <div class="card-body">
@@ -65,7 +68,8 @@ if (isset($_REQUEST["id_categorie"])) {
             </div>
         </section>
     </form>
-</div>
+        </div>
+</main>
 <script>
     $(document).ready(function() {
 
@@ -91,6 +95,6 @@ if (isset($_REQUEST["id_categorie"])) {
         }
     }
 </script>
-</body>
-
-</html>
+<?php 
+include 'admin_footer.php';
+?>

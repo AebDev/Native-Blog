@@ -7,14 +7,15 @@ if (isset($_GET["id_auteur"])) {
     header("Location: admin_author.php");
 }
 ?>
-<section class=" p-5 mt-5 col-11">
+<main class="l-main">
+        <div class="content-wrapper content-wrapper--with-bg">
     <h2>Auteurs</h2>
     <div class="p-3">
-        <a href="<?= $path ?>/admin_up_author.php" class="btn btn-primary">
+        <a href="<?= $path ?>/admin_up_author.php" class="btn btn-primary" style="margin-bottom: 20px;">
             <i class="fas fa-plus"></i> Ajouter
         </a>
     </div>
-    <table class="table table-hover bg-white">
+    <table class="table table-hover bg-white " style="background-color: #fff;">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -29,7 +30,7 @@ if (isset($_GET["id_auteur"])) {
         <tbody>
             <?php while ($row = $author->fetch(PDO::FETCH_ASSOC)) { ?>
                 <tr>
-                    <th scope="row"><input type="checkbox" value="<?= $row['id_categorie'] ?>" name="id_auteur" id="" /></th>
+                    <th scope="row"><?= $row['id_auteur'] ?></th>
                     <td><img src="uploads/<?= $row['avatar_auteur'] ?>" alt="<?= $row['avatar_auteur'] ?>" style="width:100px" /></td>
                     <td><?= $row['fullname_auteur'] ?></td>
                     <td><?= $row['email_auteur'] ?></td>
@@ -53,7 +54,8 @@ if (isset($_GET["id_auteur"])) {
 
         </tbody>
     </table>
-</section>
-</body>
-
-</html>
+</div>
+</main>
+<?php 
+include 'admin_footer.php';
+?>
